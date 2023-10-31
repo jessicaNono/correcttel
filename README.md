@@ -12,13 +12,13 @@ A JavaScript library to automatically format and correct phone numbers for inter
 Install the package using npm:
 
 ```sh
-npm install phone-number-formatter
+npm install phone-number-formatter-corrector
 ```
 
 ## Usage
 
 ```javascript
-const { formatPhoneNumber } = require('phone-number-formatter');
+const { formatPhoneNumber } = require('phone-number-formatter-corrector');
 
 const formattedNumber = formatPhoneNumber('677123456', 'CM');
 console.log(formattedNumber); // Expected output: +237677123456
