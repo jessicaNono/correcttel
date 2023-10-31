@@ -1,0 +1,27 @@
+{
+  "name": "phone-number-formatter-corrector",
+  "version": "1.0.0",
+  "description": "This library provides a simple and efficient way to format and correct phone numbers, ensuring they adhere to international standards. It is designed to be easy to use, with a focus on accuracy and reliability.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jessicaNono/correcttel.git"
+  },
+  "keywords": [
+    "phone",
+    "formatter"
+  ],
+  "author": "Jessica Nono",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jessicaNono/correcttel/issues"
+  },
+  "homepage": "https://github.com/jessicaNono/correcttel#readme",
+  "dependencies": {
+    "google-libphonenumber": "^3.2.33",
+    "node-cache": "^5.1.2"
+  }
+}
