@@ -4,7 +4,7 @@ A JavaScript library to automatically format and correct phone numbers for inter
 
 ## Features
 - **Automatic Formatting**: Converts phone numbers into the E.164 standard format, making them ready for international calls.
-- **Country Code Correction**: Adds the correct country code if missing or incorrect, defaulting to Cameroon (country code +237).
+- **Country Code Correction**: Adds the correct country code if missing or incorrect.
 - **Caching**: Utilizes caching to store previously formatted and corrected phone numbers for quicker access in future requests.
 - **Error Handling**: Provides clear error messages for invalid or incorrectly formatted phone numbers.
 
@@ -28,7 +28,7 @@ console.log(formattedNumber); // Expected output: +237677123456
 
 #### `formatPhoneNumber(number, countryCode)`
 - `number` (String): The phone number to be formatted.
-- `countryCode` (String) [optional]: The country code to be used if the phone number is not in international format. Default is 'CM' (Cameroon).
+- `countryCode` (String): The country code to be used if the phone number is not in international format.
 
 ## Technologies Used
 - **google-libphonenumber**: For parsing, formatting, and validating international phone numbers.
