@@ -6,21 +6,21 @@ The following is a set of guidelines for contributing to `phone-number-formatter
 
 ## Code of Conduct
 
-This project and everyone participating in it are governed by the [Code of Conduct](CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code. Please report unacceptable behavior to [your-email@example.com].
+This project and everyone participating in it are governed by the [Code of Conduct](CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code. Please report unacceptable behavior to [jessicanono@refworkers.io].
 
 ## How Can I Contribute?
 
 ### Reporting Bugs
 
-Before creating bug reports, please check [this list](https://github.com/jessicanono/phone-number-formatter/issues) as you might find out that you don't need to create one. When you are creating a bug report, please include as many details as possible. Fill out [the required template](https://github.com/jessicanono/phone-number-formatter/issues/new?template=bug_report.md), the information it asks for helps us resolve issues faster.
+Before creating bug reports, please check [this list](https://github.com/jessicaNono/correcttel/issues) as you might find out that you don't need to create one. When you are creating a bug report, please include as many details as possible. Fill out [the required template](https://github.com/jessicanono/phone-number-formatter/issues/new?template=bug_report.md), the information it asks for helps us resolve issues faster.
 
 ### Suggesting Enhancements
 
-This section guides you through submitting an enhancement suggestion for `phone-number-formatter-corrector`, including completely new features and minor improvements to existing functionality. Before creating enhancement suggestions, please check [this list](https://github.com/jessicanono/phone-number-formatter/issues) as you might find out that you don't need to create one. When you are creating an enhancement suggestion, please include as many details as possible. Fill in [the template](https://github.com/jessicanono/phone-number-formatter/issues/new?template=feature_request.md), including the steps that you imagine you would take if the feature you're requesting existed.
+This section guides you through submitting an enhancement suggestion for `phone-number-formatter-corrector`, including completely new features and minor improvements to existing functionality. Before creating enhancement suggestions, please check [this list](https://github.com/jessicaNono/correcttel/issues) as you might find out that you don't need to create one. When you are creating an enhancement suggestion, please include as many details as possible. Fill in [the template](https://github.com/jessicaNono/correcttel/issues/new?template=feature_request.md), including the steps that you imagine you would take if the feature you're requesting existed.
 
 ### Pull Requests
 
-- Fill in [the required template](https://github.com/jessicanono/phone-number-formatter/pull/new)
+- Fill in [the required template](https://github.com/jessicaNono/correcttel/pull/new)
 - Do not include issue numbers in the PR title
 - Include screenshots and animated GIFs in your pull request whenever possible.
 - Follow the JavaScript and [Node.js coding style](https://github.com/airbnb/javascript)
