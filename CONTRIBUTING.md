@@ -12,7 +12,7 @@ This project and everyone participating in it are governed by the [Code of Condu
 
 ### Reporting Bugs
 
-Before creating bug reports, please check [this list](https://github.com/jessicaNono/correcttel/issues) as you might find out that you don't need to create one. When you are creating a bug report, please include as many details as possible. Fill out [the required template](https://github.com/jessicanono/phone-number-formatter/issues/new?template=bug_report.md), the information it asks for helps us resolve issues faster.
+Before creating bug reports, please check [this list](https://github.com/jessicaNono/correcttel/issues) as you might find out that you don't need to create one. When you are creating a bug report, please include as many details as possible. Fill out [the required template](https://github.com/jessicaNono/correcttel/issues/new?template=bug_report.md), the information it asks for helps us resolve issues faster.
 
 ### Suggesting Enhancements
 
