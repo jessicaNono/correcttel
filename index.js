@@ -1,4 +1,4 @@
-const { PhoneNumberUtil, PhoneNumberFormat, StringBuffer } = require('google-libphonenumber');
+const { PhoneNumberUtil, PhoneNumberFormat } = require('google-libphonenumber');
 const NodeCache = require('node-cache');
 const mobileOperatorPrefixes = require('./mobileOperators.json');
 
@@ -73,11 +73,10 @@ function getMobileOperator(number, countryCode) {
 
 function getPhoneNumberInfo(number, countryCode){
   try {
-    let formattedNumber = formatPhoneNumber(number, countryCode);
     return {
       'number': number,
       'countryCode': countryCode,
-      'formattedNumber': formattedNumber,
+      'formattedNumber': formatPhoneNumber(number, countryCode),
       'operator': getMobileOperator(number, countryCode),
       'success': true
     }
