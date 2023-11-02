@@ -91,7 +91,6 @@ function getPhoneNumberInfo(number, countryCode){
   
 }
 
-
 module.exports = {
   formatPhoneNumber,
   getMobileOperator,
