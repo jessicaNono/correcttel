@@ -1,5 +1,7 @@
 const { PhoneNumberUtil, PhoneNumberFormat } = require('google-libphonenumber');
 const NodeCache = require('node-cache');
+const mobileOperatorPrefixes = require('./mobileOperators.json');
+
 const phoneUtil = PhoneNumberUtil.getInstance();
 const phoneCache = new NodeCache();
 
@@ -18,6 +20,41 @@ function formatPhoneNumber(number, countryCode) {
     }
 }
 
+function getMobileOperator(number, countryCode) {
+    try {
+        let phoneNumber, parsedCountryCode;
+        
+        // Check if the number includes a country code prefix
+        if (number.startsWith('+') || number.startsWith('00')) {
+          phoneNumber = phoneUtil.parse(number);
+          parsedCountryCode = phoneUtil.getRegionCodeForNumber(phoneNumber);
+        } else {
+          phoneNumber = phoneUtil.parseAndKeepRawInput(number, countryCode);
+          parsedCountryCode = countryCode;
+        }
+    
+        const nationalNumber = phoneNumber.getNationalNumber().toString();
+        const operatorPrefixes = mobileOperatorPrefixes[parsedCountryCode];
+    
+        if (!operatorPrefixes) {
+          console.error(`No operator prefixes found for country code: ${parsedCountryCode}`);
+          return 'Unknown Country or Operator';
+        }
+    
+        for (const operator in operatorPrefixes) {
+          if (operatorPrefixes[operator].some(prefix => nationalNumber.startsWith(prefix))) {
+            return operator;
+          }
+        }
+    
+        return 'Unknown Operator';
+      } catch (error) {
+        console.error('Error getting mobile operator:', error.message);
+        return null;
+      }
+  }
+  
 module.exports = {
-    formatPhoneNumber
+    formatPhoneNumber,
+    getMobileOperator,
 };
