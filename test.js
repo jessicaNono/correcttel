@@ -1,9 +1,10 @@
-const { formatPhoneNumber , getMobileOperator } = require('./index');
+const { formatPhoneNumber, getMobileOperator } = require('./index');
 
-const phoneNumber = '017621354126';
-const formattedNumber = formatPhoneNumber(phoneNumber, 'DE');
+const phoneNumber = '01765563626';
+const code = 'DE';
+const formattedNumber = formatPhoneNumber(phoneNumber, code);
 
-const operator = getMobileOperator(phoneNumber,  'DE');
+const operator = getMobileOperator(phoneNumber, code);
 
 console.log(`Original Number: ${phoneNumber}`);
 console.log(`Formatted Number: ${formattedNumber}`);
