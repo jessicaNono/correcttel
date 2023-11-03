@@ -21,24 +21,57 @@ npm install phone-number-formatter-corrector
 ## Usage
 
 ```javascript
-const { formatPhoneNumber, getMobileOperator, getPhoneNumberInfo, isPhoneNumberLengthCorrect } = require('phone-number-formatter-corrector');
+const { formatPhoneNumber, getMobileOperator, getPhoneNumberInfo, isNumberValidForRegion } = require('./index');
 
-const formattedNumber = formatPhoneNumber('677123456', 'CM');
-console.log(formattedNumber); // Expected output: +237677123456
+const phoneNumber = '17645685126';
+const code = 'DE';
+//TODO: we might move this list to a test-config file and import 
+// if it becomes to long.
+// To add more validation, please add an object which has a countryCode key and provide
+// the list of good and bad numbers. If tests is failing for you, please create an issue 
+// in github and we will track it.
+const testPhoneNumberList = [
+    {
+        'countryCode': 'CM',
+        'numbers': ['6960923457683', '696092445', '696092545', '677123456'],
+        'badNumbers': ['6960923450', '6960924450', '6960925450', '6771234560']
+    }
+]
+const formattedNumber = formatPhoneNumber(phoneNumber, code);
 
-const operator = getMobileOperator('677123456', 'CM');
-console.log(operator); // Expected output: MTN (or the appropriate operator for this number)
+const operator = getMobileOperator(phoneNumber, code);
 
-const phoneNumberInfo = getPhoneNumberInfo('677123456', 'CM');
+const phoneNumberInfo = getPhoneNumberInfo(phoneNumber, code);
+
+console.log(`Original Number: ${phoneNumber}`);
+console.log(`Formatted Number: ${formattedNumber}`);
+console.log(`Mobile Operator: ${operator}`);
 console.log(`Phone Number Info: ${JSON.stringify(phoneNumberInfo)}`);
-// Assertions to validate the phone number information
 console.assert(phoneNumberInfo.formattedNumber == formattedNumber);
-console.assert(phoneNumberInfo.countryCode == 'CM');
+console.assert(phoneNumberInfo.countryCode == code);
 console.assert(phoneNumberInfo.operator == operator);
 
-// Validate the phone number length
-const lengthValidation = isPhoneNumberLengthCorrect('677123456', 'CM');
-console.log(`Length validation: ${lengthValidation.message}`);
+
+
+testPhoneNumberList.forEach(function (obj) {
+    obj.numbers.forEach(e => console.assert(isNumberValidForRegion(e, obj.countryCode), `${e}(${obj.countryCode}) is expected to be correct, but failed.`));
+});
+
+testPhoneNumberList.forEach(function (obj) {
+    obj.badNumbers.forEach(e => console.assert(!isNumberValidForRegion(e, obj.countryCode), `${e}(${obj.countryCode}) is expected to fail.`));
+});
+
+// here our tests have passed. We just dummy log the phone number info to operators
+// this just shows the importance of the isValid attribut on the phone number info object.
+testPhoneNumberList.forEach(function (obj) {
+    obj.numbers.forEach(e => console.log(`${JSON.stringify(getPhoneNumberInfo(e, obj.countryCode))}`));
+});
+
+// We see here that we could process a number, but this number is not valid.
+console.log("");
+testPhoneNumberList.forEach(function (obj) {
+    obj.badNumbers.forEach(e => console.log(`${JSON.stringify(getPhoneNumberInfo(e, obj.countryCode))}`));
+});
 ```
 
 ### API
