@@ -111,8 +111,6 @@ function getPhoneNumberInfo(number, countryCode) {
 
 }
 
-
-
 function isPhoneNumberLengthCorrect(number, countryCode) {
   const expectedLength = fixedPhoneLengths[countryCode];
   if (!expectedLength) {
