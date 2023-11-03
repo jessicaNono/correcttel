@@ -1,7 +1,7 @@
 const { PhoneNumberUtil, PhoneNumberFormat } = require('google-libphonenumber');
 const NodeCache = require('node-cache');
 const mobileOperatorPrefixes = require('./mobileOperators.json');
-
+const fixedPhoneLengths = require('./fixed_lengths.json');
 const phoneUtil = PhoneNumberUtil.getInstance();
 const phoneCache = new NodeCache();
 const operatorCache = new NodeCache();
@@ -9,7 +9,7 @@ const countryConfig = require('./lib/countryConfig');
 function formatPhoneNumber(number, countryCode) {
   // first check if we already have formatted this number. if so then return the formatted number
   let formattedNumber = phoneCache.get(number);
-  if(formattedNumber){
+  if (formattedNumber) {
     return formattedNumber;
   }
   try {
@@ -47,7 +47,7 @@ function getMobileOperator(number, countryCode) {
     }
     // first check if we already know this national number. if so then return the operator
     let operatorName = operatorCache.get(nationalNumber);
-    if(operatorName){
+    if (operatorName) {
       return operatorName;
     }
     const operatorPrefixes = mobileOperatorPrefixes[parsedCountryCode];
@@ -80,29 +80,79 @@ function isPhoneNumberValid(number, countryCode){
   }
 }
 
-function getPhoneNumberInfo(number, countryCode){
-  try {
+function getPhoneNumberInfo(number, countryCode) {
+  const lengthCheck = isPhoneNumberLengthCorrect(number, countryCode);
+
+  // Check the length of the number first
+  if (lengthCheck.code == -1) {
     return {
       'number': number,
       'countryCode': countryCode,
-      'formattedNumber': formatPhoneNumber(number, countryCode),
-      'operator': getMobileOperator(number, countryCode),
-      'isValid': isPhoneNumberValid(number, countryCode),
-      'success': true
+      'error': lengthCheck.message,
+      'lengthCheck': 'Incorrect', // Indicate that the length check failed
+      'success': false
+    };
+  } else {
+
+    try {
+      // Proceed only if the length check is successful
+      const formattedNumber = formatPhoneNumber(number, countryCode);
+      const operator = getMobileOperator(number, countryCode);
+
+      return {
+        'number': number,
+        'countryCode': countryCode,
+        'formattedNumber': formattedNumber,
+        'operator': operator,
+        'lengthCheck': lengthCheck.message,
+        'success': true
+      };
+    } catch (error) {
+      return {
+        'number': number,
+        'countryCode': countryCode,
+        'error': error.message,
+        'success': false
+      };
+    }
+
+  }
+
+}
+
+function isPhoneNumberLengthCorrect(number, countryCode) {
+  const expectedLength = fixedPhoneLengths[countryCode];
+  if (!expectedLength) {
+    const errorMessage = `No fixed length found for country code: ${countryCode}`;
+    console.error(errorMessage);
+    return { code: -2, message: errorMessage };
+  }
+
+  try {
+    const phoneNumber = phoneUtil.parseAndKeepRawInput(number, countryCode);
+    const nationalNumber = phoneNumber.getNationalNumber().toString();
+
+    // Check if the national number matches the expected length
+    if (nationalNumber.length === expectedLength) {
+      return { code: 0, message: 'Phone number length is correct.' };
+    } else {
+      const errorMessage = `Incorrect phone number length: expected ${expectedLength}, got ${nationalNumber.length}.`;
+      console.error(errorMessage);
+      return { code: -1, message: errorMessage };
     }
   } catch (error) {
-    return {
-      'number': number,
-      'countryCode': countryCode,
-      'error': error.message,
-      'success': false
-    }
+    const errorMessage = `Error validating phone number length: ${error.message}`;
+    console.error(errorMessage);
+    return { code: -1, message: errorMessage };
   }
 }
+
+
 
 module.exports = {
   formatPhoneNumber,
   getMobileOperator,
   getPhoneNumberInfo,
   isPhoneNumberValid,
+  isPhoneNumberLengthCorrect,
 };
