@@ -71,6 +71,15 @@ function getMobileOperator(number, countryCode) {
   }
 }
 
+function isPhoneNumberValid(number, countryCode){
+  try {
+      return phoneUtil.isValidNumberForRegion(phoneUtil.parseAndKeepRawInput(number, countryCode), countryCode);
+  } catch (error) {
+      console.error(error);
+      return false;
+  }
+}
+
 function getPhoneNumberInfo(number, countryCode){
   try {
     return {
@@ -78,6 +87,7 @@ function getPhoneNumberInfo(number, countryCode){
       'countryCode': countryCode,
       'formattedNumber': formatPhoneNumber(number, countryCode),
       'operator': getMobileOperator(number, countryCode),
+      'isValid': isPhoneNumberValid(number, countryCode),
       'success': true
     }
   } catch (error) {
@@ -88,11 +98,11 @@ function getPhoneNumberInfo(number, countryCode){
       'success': false
     }
   }
-  
 }
 
 module.exports = {
   formatPhoneNumber,
   getMobileOperator,
   getPhoneNumberInfo,
+  isPhoneNumberValid,
 };
