@@ -10,9 +10,9 @@ try {
 	// in github and we will track it.
 	const testPhoneNumberList = [
 		{
-			countryCode: "CM",
-			numbers: ["6960923457683", "696092445", "696092545", "677123456"],
-			badNumbers: ["6960923450", "6960924450", "6960925450", "6771234560"],
+			"countryCode": "CM",
+			"numbers": ["6960923457683", "696092445", "696092545", "677123456"],
+			"badNumbers": ["6960923450", "6960924450", "6960925450", "6771234560"],
 		},
 	];
 	const formattedNumber = formatPhoneNumber(phoneNumber, code);
