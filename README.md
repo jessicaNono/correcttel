@@ -6,7 +6,8 @@ A JavaScript library to automatically format and correct phone numbers for inter
 - **Automatic Formatting**: Converts phone numbers into the E.164 standard format, making them ready for international calls.
 - **Country Code Correction**: Adds the correct country code if missing or incorrect.
 - **Mobile Operator Detection**: Identifies the mobile operator based on the phone number’s prefix.
-- **Phone Number Information Retrieval**: Retrieves comprehensive information about a phone number, including formatting, country code, and operator.
+- **Phone Number Length Validation**: Validates the length of a phone number to ensure it is correct for the specified country.
+- **Phone Number Information Retrieval**: Retrieves comprehensive information about a phone number, including formatting, country code, operator, and length validation.
 - **Caching**: Utilizes caching to store previously formatted and corrected phone numbers for quicker access in future requests.
 - **Error Handling**: Provides clear error messages for invalid or incorrectly formatted phone numbers.
 
@@ -20,7 +21,7 @@ npm install phone-number-formatter-corrector
 ## Usage
 
 ```javascript
-const { formatPhoneNumber, getMobileOperator, getPhoneNumberInfo } = require('phone-number-formatter-corrector');
+const { formatPhoneNumber, getMobileOperator, getPhoneNumberInfo, isPhoneNumberLengthCorrect } = require('phone-number-formatter-corrector');
 
 const formattedNumber = formatPhoneNumber('677123456', 'CM');
 console.log(formattedNumber); // Expected output: +237677123456
@@ -34,6 +35,10 @@ console.log(`Phone Number Info: ${JSON.stringify(phoneNumberInfo)}`);
 console.assert(phoneNumberInfo.formattedNumber == formattedNumber);
 console.assert(phoneNumberInfo.countryCode == 'CM');
 console.assert(phoneNumberInfo.operator == operator);
+
+// Validate the phone number length
+const lengthValidation = isPhoneNumberLengthCorrect('677123456', 'CM');
+console.log(`Length validation: ${lengthValidation.message}`);
 ```
 
 ### API
@@ -49,7 +54,12 @@ console.assert(phoneNumberInfo.operator == operator);
 #### `getPhoneNumberInfo(number, countryCode)`
 - `number` (String): The phone number to retrieve information for.
 - `countryCode` (String): The country code for the provided phone number.
-- Returns an object with the phone number information, including the formatted number, country code, and mobile operator.
+- Returns an object with the phone number information, including the formatted number, country code, mobile operator, and length validation.
+
+#### `isPhoneNumberLengthCorrect(number, countryCode)`
+- `number` (String): The phone number to validate the length for.
+- `countryCode` (String): The country code for the provided phone number.
+- Returns an object with the validation result code and message. A result code of `0` indicates the length is correct, `-1` indicates incorrect length, and `-2` indicates no fixed length was found for the country.
 
 ## Technologies Used
 - **google-libphonenumber**: For parsing, formatting, and validating international phone numbers.
