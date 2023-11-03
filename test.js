@@ -8,9 +8,9 @@ const code = 'DE';
 // the list of good and bad numbers. If tests is failing for you, please create an issue 
 // in github and we will track it.
 const testPhoneNumberList = [
-    {   
-        'countryCode': 'CM', 
-        'numbers': ['696092345', '696092445', '696092545', '677123456'],
+    {
+        'countryCode': 'CM',
+        'numbers': ['6960923457683', '696092445', '696092545', '677123456'],
         'badNumbers': ['6960923450', '6960924450', '6960925450', '6771234560']
     }
 ]
@@ -30,22 +30,22 @@ console.assert(phoneNumberInfo.operator == operator);
 
 
 
-testPhoneNumberList.forEach(function(obj){
+testPhoneNumberList.forEach(function (obj) {
     obj.numbers.forEach(e => console.assert(isNumberValidForRegion(e, obj.countryCode), `${e}(${obj.countryCode}) is expected to be correct, but failed.`));
 });
 
-testPhoneNumberList.forEach(function(obj){
+testPhoneNumberList.forEach(function (obj) {
     obj.badNumbers.forEach(e => console.assert(!isNumberValidForRegion(e, obj.countryCode), `${e}(${obj.countryCode}) is expected to fail.`));
 });
 
 // here our tests have passed. We just dummy log the phone number info to operators
 // this just shows the importance of the isValid attribut on the phone number info object.
-testPhoneNumberList.forEach(function(obj){
+testPhoneNumberList.forEach(function (obj) {
     obj.numbers.forEach(e => console.log(`${JSON.stringify(getPhoneNumberInfo(e, obj.countryCode))}`));
 });
 
 // We see here that we could process a number, but this number is not valid.
 console.log("");
-testPhoneNumberList.forEach(function(obj){
+testPhoneNumberList.forEach(function (obj) {
     obj.badNumbers.forEach(e => console.log(`${JSON.stringify(getPhoneNumberInfo(e, obj.countryCode))}`));
 });

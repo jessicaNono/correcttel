@@ -1,7 +1,6 @@
 const { PhoneNumberUtil, PhoneNumberFormat } = require('google-libphonenumber');
 const NodeCache = require('node-cache');
 const mobileOperatorPrefixes = require('./mobileOperators.json');
-const fixedPhoneLengths = require('./fixed_lengths.json');
 const phoneUtil = PhoneNumberUtil.getInstance();
 const phoneCache = new NodeCache();
 const operatorCache = new NodeCache();
@@ -77,12 +76,12 @@ function getMobileOperator(number, countryCode) {
  * @param {*} countryCode the country code of the country where we want to validate le number against.
  * @returns true if the number is valid within the selected country refered by countryCode
  */
-function isNumberValidForRegion(number, countryCode){
+function isNumberValidForRegion(number, countryCode) {
   try {
-      return phoneUtil.isValidNumberForRegion(phoneUtil.parseAndKeepRawInput(number, countryCode), countryCode);
+    return phoneUtil.isValidNumberForRegion(phoneUtil.parseAndKeepRawInput(number, countryCode), countryCode);
   } catch (error) {
-      console.error(error);
-      return false;
+    console.error(error);
+    return false;
   }
 }
 
@@ -96,7 +95,7 @@ function isNumberValidForRegion(number, countryCode){
  * operator could be found. This flag doesn't that the number is valid within the selected country.
  * Note: isValid simply mean that the number lenght is correct, is doesn't mean that the number exists.
  */
-function getPhoneNumberInfo(number, countryCode){
+function getPhoneNumberInfo(number, countryCode) {
   try {
     return {
       'number': number,
