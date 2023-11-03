@@ -71,78 +71,54 @@ function getMobileOperator(number, countryCode) {
   }
 }
 
-function getPhoneNumberInfo(number, countryCode) {
-  const lengthCheck = isPhoneNumberLengthCorrect(number, countryCode);
+/**
+ * 
+ * @param {*} number the number to validate
+ * @param {*} countryCode the country code of the country where we want to validate le number against.
+ * @returns true if the number is valid within the selected country refered by countryCode
+ */
+function isNumberValidForRegion(number, countryCode){
+  try {
+      return phoneUtil.isValidNumberForRegion(phoneUtil.parseAndKeepRawInput(number, countryCode), countryCode);
+  } catch (error) {
+      console.error(error);
+      return false;
+  }
+}
 
-  // Check the length of the number first
-  if (lengthCheck.code == -1) {
+/**
+ * 
+ * @param {*} number The phone we want to format
+ * @param {*} countryCode The country code to format the phone number against.
+ * @returns an object that contains the provided number, the formatted number,
+ * the operator, a isValid flag that assert that the provided number is valid within
+ * the selected country; and a success flag assert that the provided could be formatted an an 
+ * operator could be found. This flag doesn't that the number is valid within the selected country.
+ * Note: isValid simply mean that the number lenght is correct, is doesn't mean that the number exists.
+ */
+function getPhoneNumberInfo(number, countryCode){
+  try {
     return {
       'number': number,
       'countryCode': countryCode,
-      'error': lengthCheck.message,
-      'lengthCheck': 'Incorrect', // Indicate that the length check failed
-      'success': false
-    };
-  } else {
-
-    try {
-      // Proceed only if the length check is successful
-      const formattedNumber = formatPhoneNumber(number, countryCode);
-      const operator = getMobileOperator(number, countryCode);
-
-      return {
-        'number': number,
-        'countryCode': countryCode,
-        'formattedNumber': formattedNumber,
-        'operator': operator,
-        'lengthCheck': lengthCheck.message,
-        'success': true
-      };
-    } catch (error) {
-      return {
-        'number': number,
-        'countryCode': countryCode,
-        'error': error.message,
-        'success': false
-      };
-    }
-
-  }
-
-}
-
-function isPhoneNumberLengthCorrect(number, countryCode) {
-  const expectedLength = fixedPhoneLengths[countryCode];
-  if (!expectedLength) {
-    const errorMessage = `No fixed length found for country code: ${countryCode}`;
-    console.error(errorMessage);
-    return { code: -2, message: errorMessage };
-  }
-
-  try {
-    const phoneNumber = phoneUtil.parseAndKeepRawInput(number, countryCode);
-    const nationalNumber = phoneNumber.getNationalNumber().toString();
-
-    // Check if the national number matches the expected length
-    if (nationalNumber.length === expectedLength) {
-      return { code: 0, message: 'Phone number length is correct.' };
-    } else {
-      const errorMessage = `Incorrect phone number length: expected ${expectedLength}, got ${nationalNumber.length}.`;
-      console.error(errorMessage);
-      return { code: -1, message: errorMessage };
+      'formattedNumber': formatPhoneNumber(number, countryCode),
+      'operator': getMobileOperator(number, countryCode),
+      'isValid': isNumberValidForRegion(number, countryCode),
+      'success': true
     }
   } catch (error) {
-    const errorMessage = `Error validating phone number length: ${error.message}`;
-    console.error(errorMessage);
-    return { code: -1, message: errorMessage };
+    return {
+      'number': number,
+      'countryCode': countryCode,
+      'error': error.message,
+      'success': false
+    }
   }
 }
-
-
 
 module.exports = {
   formatPhoneNumber,
   getMobileOperator,
   getPhoneNumberInfo,
-  isPhoneNumberLengthCorrect,
+  isNumberValidForRegion,
 };
